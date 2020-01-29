@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.Collections;
+
 public class MainApp {
     private Bank bank;
     private InputController inputController;
@@ -6,6 +9,7 @@ public class MainApp {
     public MainApp() {
         this.bank = new Bank();
         this.inputController = new InputController();
+
     }
 
     public Bank getBank() {
@@ -17,10 +21,11 @@ public class MainApp {
         mainApp.execute();
     }
 
+
     private void execute() {
         //Account a1 = new Account("munif", 12345, 123, 300, "S");
-        Account a2 = new Account("dipto", 24678, 123, 300, "S");
-        getBank().addAccount(new Account("munif", 12345, 123, 300, "S"));
+        Account a2 = new Account("dipto", 24678, 123, 500, Account.AccountType.INSURANCE);
+        getBank().addAccount(new Account("munif", 12345, 123, 300, Account.AccountType.SALARY));
         getBank().addAccount(a2);
         showMenu();
         menuHandling(inputController.getIntInput());
@@ -35,13 +40,15 @@ public class MainApp {
                 .append("\n")
                 .append("3.ADD MONEY TO ACCOUNT")
                 .append("\n")
-                .append("4.TRANSFER MONEY FROM ACCOUNT\n0.EXIT\nPress the adjacent number");
+                .append("4.TRANSFER MONEY FROM ACCOUNT")
+                .append("\n")
+                .append("5.ADMIN\n0.EXIT\nPress the adjacent number");
         System.out.println(screen);
     }
 
     private int showSubMenu() {
         int input;
-        System.out.println("\nPress 5 to go to menu\nPress 0 to Exit");
+        System.out.println("\nPress 6 to go to menu\nPress 0 to Exit");
         input = inputController.getIntInput();
         return input;
     }
@@ -66,6 +73,10 @@ public class MainApp {
                     input = showSubMenu();
                     break;
                 case 5:
+                    adminOperation();
+                    input = showSubMenu();
+                    break;
+                case 6:
                     showMenu();
                     input = inputController.getIntInput();
                     break;
@@ -74,6 +85,28 @@ public class MainApp {
                     break;
                 default:
                     input = showSubMenu();
+            }
+        }
+    }
+
+    private void adminOperation() {
+        System.out.println("1.Sort Accounts by ID\n2.Sort accounts by Balance");
+        int input = inputController.getIntInput();
+        while (true) {
+            switch (input) {
+                case 1:
+                    Collections.sort(getBank().getAccounts(), getBank().getAccountComparison());
+                    showAccountList(getBank().getAccounts());
+                    return;
+                case 2:
+                    Collections.sort(getBank().getAccounts(), getBank().getBalanceComparison());
+                    showAccountList(getBank().getAccounts());
+                    return;
+                case 0:
+                    return;
+                default:
+                    System.out.println("Wrong Input");
+                    input = inputController.getIntInput();
             }
         }
     }
@@ -133,6 +166,12 @@ public class MainApp {
                     System.out.println("Transferred " + debitAmount + "TK to Account No. " + accountToTransferTo.getId() + "\n" + accountToTransferTo.toString());
                 }
             }
+        }
+    }
+
+    private void showAccountList(ArrayList<Account> list) {
+        for (Account account : list) {
+            System.out.println("ACCOUNT NO: " + account.getId() + " Holder Name: " + account.getHolderName() + " Balance: " + account.getBalance());
         }
     }
 

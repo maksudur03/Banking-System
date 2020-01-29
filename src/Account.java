@@ -3,9 +3,13 @@ public class Account {
     private long id;
     private long NID;
     private double balance;
-    private String accountType;
+    private AccountType accountType;
 
-    public Account(String holderName, long id, long NID, double balance, String accountType) {
+    enum AccountType {
+        SAVINGS, SALARY, STUDENT, INSURANCE
+    }
+
+    public Account(String holderName, long id, long NID, double balance, AccountType accountType) {
         this.holderName = holderName;
         this.id = id;
         this.NID = NID;
@@ -16,8 +20,21 @@ public class Account {
     public Account() {
     }
 
+
     public long getId() {
         return id;
+    }
+
+    public String getHolderName() {
+        return holderName;
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+
+    public AccountType getAccountType() {
+        return accountType;
     }
 
     public void setId(long id) {
@@ -36,7 +53,7 @@ public class Account {
         this.NID = NID;
     }
 
-    public void setAccountType(String accountType) {
+    public void setAccountType(AccountType accountType) {
         this.accountType = accountType;
     }
 

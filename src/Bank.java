@@ -1,15 +1,28 @@
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Random;
 
 public class Bank {
     private ArrayList<Account> accounts;
+    private AccountComparison accountComparison;
+    private  BalanceComparison balanceComparison;
 
     public Bank() {
         accounts = new ArrayList<Account>();
+        accountComparison = new AccountComparison();
+        balanceComparison =  new BalanceComparison();
     }
 
     public ArrayList<Account> getAccounts() {
         return accounts;
+    }
+
+    public AccountComparison getAccountComparison() {
+        return accountComparison;
+    }
+
+    public BalanceComparison getBalanceComparison() {
+        return balanceComparison;
     }
 
     public void addAccount(Account account) {
@@ -24,9 +37,10 @@ public class Bank {
         }
         return null;
     }
+
     public int idGenerator() {
         Random random = new Random();
-        int id =  random.nextInt(10000);
+        int id = random.nextInt(10000);
         boolean hasRepeat = checkForRepetition(id, getAccounts());
         while (!hasRepeat) {
             id = random.nextInt(10000);
@@ -43,4 +57,27 @@ public class Bank {
         }
         return true;
     }
+
+    private class AccountComparison implements Comparator<Account> {
+        public int compare(Account account1, Account account2) {
+            if (account1.getId() < account2.getId()) {
+                return -1;
+            } else if (account1.getId() > account2.getId()) {
+                return 1;
+            } else
+                return 0;
+        }
+    }
+
+    private class BalanceComparison implements Comparator<Account> {
+        public int compare(Account account1, Account account2) {
+            if (account1.getBalance() < account2.getBalance()) {
+                return -1;
+            } else if (account1.getBalance() > account2.getBalance()) {
+                return 1;
+            } else
+                return 0;
+        }
+    }
 }
+
