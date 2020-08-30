@@ -3,14 +3,26 @@ import java.util.Comparator;
 import java.util.Random;
 
 public class Bank {
+    private static Bank bank;
     private ArrayList<Account> accounts;
     private AccountComparison accountComparison;
-    private  BalanceComparison balanceComparison;
+    private BalanceComparison balanceComparison;
 
-    public Bank() {
-        accounts = new ArrayList<Account>();
+    private Bank() {
+        setupBank();
+    }
+
+    public static Bank getBank(){
+        if(bank == null){
+            return new Bank();
+        }else
+            return null;
+    }
+
+    void setupBank() {
+        accounts = new ArrayList<>();
         accountComparison = new AccountComparison();
-        balanceComparison =  new BalanceComparison();
+        balanceComparison = new BalanceComparison();
     }
 
     public ArrayList<Account> getAccounts() {

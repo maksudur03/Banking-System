@@ -7,15 +7,11 @@ public class MainApp {
     public boolean state = true;
 
     public MainApp() {
-        this.bank = new Bank();
+        this.bank = Bank.getBank();
         this.inputController = new InputController();
 
     }
-
-    public Bank getBank() {
-        return bank;
-    }
-
+    
     public static void main(String[] args) {
         MainApp mainApp = new MainApp();
         mainApp.execute();
@@ -25,8 +21,8 @@ public class MainApp {
     private void execute() {
         //Account a1 = new Account("munif", 12345, 123, 300, "S");
         Account a2 = new Account("dipto", 24678, 123, 500, Account.AccountType.INSURANCE);
-        getBank().addAccount(new Account("munif", 12345, 123, 300, Account.AccountType.SALARY));
-        getBank().addAccount(a2);
+        bank.addAccount(new Account("munif", 12345, 123, 300, Account.AccountType.SALARY));
+        bank.addAccount(a2);
         showMenu();
         menuHandling(inputController.getIntInput());
     }
@@ -95,12 +91,12 @@ public class MainApp {
         while (true) {
             switch (input) {
                 case 1:
-                    Collections.sort(getBank().getAccounts(), getBank().getAccountComparison());
-                    showAccountList(getBank().getAccounts());
+                    Collections.sort(bank.getAccounts(), bank.getAccountComparison());
+                    showAccountList(bank.getAccounts());
                     return;
                 case 2:
-                    Collections.sort(getBank().getAccounts(), getBank().getBalanceComparison());
-                    showAccountList(getBank().getAccounts());
+                    Collections.sort(bank.getAccounts(), bank.getBalanceComparison());
+                    showAccountList(bank.getAccounts());
                     return;
                 case 0:
                     return;
@@ -112,15 +108,15 @@ public class MainApp {
     }
 
     private void addAccountOperation() {
-        Account newAccount = inputController.inputOfCreatingAccount(getBank().idGenerator());
-        getBank().addAccount(newAccount);
+        Account newAccount = inputController.inputOfCreatingAccount(bank.idGenerator());
+        bank.addAccount(newAccount);
         System.out.println("SUCCESS!!! Account Created");
         System.out.println(newAccount.toString());
     }
 
     private Account searchAccountOperation(String searchType) {
         System.out.println("Type " + searchType + " Account Number : ");
-        Account account = getBank().searchAccount(inputController.getIntInput());
+        Account account = bank.searchAccount(inputController.getIntInput());
         if (account == null) {
             System.out.println("\nAccount doesn't exist");
             return null;
@@ -176,3 +172,4 @@ public class MainApp {
     }
 
 }
+
