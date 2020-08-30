@@ -85,7 +85,7 @@ public class InputController {
     }
 
     private static String getStringInput() {
-        return new Scanner(System.in).next(".{10}");
+        return new Scanner(System.in).next();
     }
 
     public void showAccountTypes() {
